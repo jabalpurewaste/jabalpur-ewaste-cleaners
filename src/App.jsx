@@ -16,7 +16,7 @@ import Footer from "./sections/Footer";
 import SocialSidebar from "./components/layout/SocialSidebar";
 import FloatingWhatsapp from "./components/layout/FloatingWhatsapp";
 
-import Partners from "./components/sections/Partners";
+import Partners from "./components/Sections/Partners";
 import AuthPopup from "./components/auth/AuthPopup";
 import Enquiry from "./sections/Enquiry";
 
