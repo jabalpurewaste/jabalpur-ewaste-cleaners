@@ -1,12 +1,30 @@
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbyyqr33wx88507_ixq4YWsiVoxNiJ7TcKBsif2eZ9-A_KGTbuj2ft7dFPWh3wRNSJNybQ/exec";
+  "https://script.google.com/macros/s/AKfycbxj5GGQXt2fBsQgEEpvfEB-oi_vM1yAoPEwQ3UMNbV8bdtdP1V-jHPKPvW8_md_qbx4/exec";
 
 export async function getPartners() {
 
-  const response =
-    await fetch(
-      `${API_URL}?action=getPartners`
+  try {
+
+    const response =
+      await fetch(
+        `${API_URL}?action=getPartners`
+      );
+
+    return await response.json();
+
+  } catch (err) {
+
+    console.log(
+      "Error fetching partners:",
+      err
     );
 
-  return await response.json();
+    return {
+
+      success: false,
+
+      partners: []
+
+    };
+  }
 }

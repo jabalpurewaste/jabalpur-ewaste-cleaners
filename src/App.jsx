@@ -36,8 +36,12 @@ function App() {
     toggleTheme
   } = useTheme();
 
-  const [user, setUser] =
-    useState(null);
+const [user, setUser] =
+  useState(null);
+
+const [showAuthPopup,
+  setShowAuthPopup] =
+  useState(false);
 
   const [showNotification,
     setShowNotification] =
@@ -144,26 +148,24 @@ function App() {
         }
       />
 
-      {!user && (
+      {showAuthPopup && (
 
         <AuthPopup
-          onLogin={
-            handleLogin
+          onLogin={handleLogin}
+          onClose={() =>
+            setShowAuthPopup(false)
           }
         />
 
       )}
 
       <Navbar
-        darkMode={
-          darkMode
-        }
-        toggleTheme={
-          toggleTheme
-        }
+        darkMode={darkMode}
+        toggleTheme={toggleTheme}
         user={user}
-        onLogout={
-          handleLogout
+        onLogout={handleLogout}
+        onLogin={() =>
+          setShowAuthPopup(true)
         }
       />
 

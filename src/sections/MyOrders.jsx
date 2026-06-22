@@ -175,14 +175,14 @@ function MyOrders({ user }) {
             My Orders
           </h2>
 
-          <p
+          {/* <p
             className="
             text-gray-500
             mt-3
             "
           >
             Status updates refresh automatically every 5 seconds
-          </p>
+          </p> */}
 
           {orders.length > 0 && (
 

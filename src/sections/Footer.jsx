@@ -139,44 +139,79 @@ function Footer() {
 
             <div className="flex gap-5 mb-5">
 
-              <a
-                href="#"
-                className="cursor-pointer hover:scale-110 transition"
+              {/* Facebook */}
+              <button
+                type="button"
+                className="
+                cursor-default
+                transition
+                hover:scale-110
+                "
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
                   alt="Facebook"
-                  className="w-10 h-10"
+                  className="
+                  w-10
+                  h-10
+                  rounded-full
+                  "
                 />
-              </a>
+              </button>
 
-              <a
-                href="#"
-                className="cursor-pointer hover:scale-110 transition"
+              {/* Instagram */}
+              <button
+                type="button"
+                className="
+                cursor-default
+                transition
+                hover:scale-110
+                "
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
                   alt="Instagram"
-                  className="w-10 h-10"
+                  className="
+                  w-10
+                  h-10
+                  rounded-full
+                  "
                 />
-              </a>
+              </button>
 
+              {/* WhatsApp */}
               <a
-                href="#"
-                className="cursor-pointer hover:scale-110 transition"
+                href="https://wa.me/917024298343"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                transition
+                hover:scale-110
+                block
+                "
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
                   alt="WhatsApp"
-                  className="w-10 h-10"
+                  className="
+                  w-10
+                  h-10
+                  rounded-full
+                  "
                 />
               </a>
 
             </div>
 
+            {/* Email */}
             <a
               href="mailto:jabalpurwaste@gmail.com"
-              className="text-gray-300 hover:text-green-400 transition cursor-pointer"
+              className="
+              text-gray-300
+              hover:text-green-400
+              transition
+              cursor-pointer
+              "
             >
               ✉️ jabalpurwaste@gmail.com
             </a>

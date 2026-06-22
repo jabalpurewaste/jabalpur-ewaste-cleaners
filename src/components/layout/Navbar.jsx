@@ -2,17 +2,20 @@ import { useState } from "react";
 import { navigation } from "../../data/navigationData";
 import ThemeToggle from "./ThemeToggle";
 import Logo from "./Logo";
+
 import {
   FaBars,
   FaTimes,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaSignInAlt
 } from "react-icons/fa";
 
 function Navbar({
   darkMode,
   toggleTheme,
   user,
-  onLogout
+  onLogout,
+  onLogin
 }) {
 
   const [menuOpen, setMenuOpen] =
@@ -58,7 +61,7 @@ function Navbar({
 
         </a>
 
-        {/* Desktop */}
+        {/* Desktop Menu */}
 
         <div
           className="
@@ -77,11 +80,12 @@ function Navbar({
               className="
               relative
               text-gray-700
-              dark:text-gray-200
+              dark:text-gray-100
               font-medium
               transition-all
               duration-300
               hover:text-green-700
+              dark:hover:text-green-400
               after:absolute
               after:left-0
               after:-bottom-1
@@ -98,9 +102,9 @@ function Navbar({
 
           ))}
 
-          {/* User */}
+          {/* User Logged In */}
 
-          {user && (
+          {user ? (
 
             <div
               className="
@@ -116,10 +120,13 @@ function Navbar({
                 py-2
                 rounded-full
                 bg-green-100
+                dark:bg-green-900/40
                 text-green-700
+                dark:text-green-300
                 font-medium
                 border
                 border-green-200
+                dark:border-green-700
                 "
               >
                 👋 {user.name.split(" ")[0]}
@@ -136,8 +143,11 @@ function Navbar({
                 rounded-full
                 border
                 border-red-200
+                dark:border-red-700
                 text-red-600
+                dark:text-red-400
                 hover:bg-red-50
+                dark:hover:bg-red-900/20
                 transition-all
                 duration-300
                 "
@@ -148,6 +158,30 @@ function Navbar({
 
             </div>
 
+          ) : (
+
+            <button
+              onClick={onLogin}
+              className="
+              flex
+              items-center
+              gap-2
+              px-5
+              py-2.5
+              rounded-full
+              bg-green-700
+              hover:bg-green-800
+              text-white
+              font-medium
+              transition-all
+              duration-300
+              hover:shadow-lg
+              "
+            >
+              <FaSignInAlt />
+              Login
+            </button>
+
           )}
 
           <ThemeToggle
@@ -157,7 +191,7 @@ function Navbar({
 
         </div>
 
-        {/* Mobile */}
+        {/* Mobile Header */}
 
         <div
           className="
@@ -168,24 +202,6 @@ function Navbar({
           "
         >
 
-          {user && (
-
-            <div
-              className="
-              px-3
-              py-1.5
-              rounded-full
-              bg-green-100
-              text-green-700
-              text-sm
-              font-medium
-              "
-            >
-              {user.name.split(" ")[0]}
-            </div>
-
-          )}
-
           <ThemeToggle
             darkMode={darkMode}
             toggleTheme={toggleTheme}
@@ -193,9 +209,7 @@ function Navbar({
 
           <button
             onClick={() =>
-              setMenuOpen(
-                !menuOpen
-              )
+              setMenuOpen(!menuOpen)
             }
             className="
             text-slate-700
@@ -245,8 +259,9 @@ function Navbar({
               }
               className="
               text-gray-700
-              dark:text-white
+              dark:text-gray-100
               hover:text-green-700
+              dark:hover:text-green-400
               font-medium
               "
             >
@@ -255,27 +270,71 @@ function Navbar({
 
           ))}
 
-          {user && (
+          {/* Mobile User Section */}
+
+          {user ? (
+
+            <>
+
+              <div
+                className="
+                px-4
+                py-3
+                rounded-xl
+                bg-green-100
+                dark:bg-green-900/30
+                text-green-700
+                dark:text-green-300
+                font-medium
+                "
+              >
+                👋 {user.name}
+              </div>
+
+              <button
+                onClick={() => {
+
+                  setMenuOpen(false);
+
+                  onLogout();
+
+                }}
+                className="
+                py-3
+                rounded-xl
+                border
+                border-red-200
+                dark:border-red-700
+                text-red-600
+                dark:text-red-400
+                font-medium
+                "
+              >
+                Logout
+              </button>
+
+            </>
+
+          ) : (
 
             <button
               onClick={() => {
 
                 setMenuOpen(false);
 
-                onLogout();
+                onLogin();
 
               }}
               className="
-              mt-2
               py-3
               rounded-xl
-              border
-              border-red-200
-              text-red-600
+              bg-green-700
+              hover:bg-green-800
+              text-white
               font-medium
               "
             >
-              Logout
+              Login
             </button>
 
           )}

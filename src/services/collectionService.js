@@ -1,29 +1,30 @@
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbyyqr33wx88507_ixq4YWsiVoxNiJ7TcKBsif2eZ9-A_KGTbuj2ft7dFPWh3wRNSJNybQ/exec";
+  "https://script.google.com/macros/s/AKfycbxj5GGQXt2fBsQgEEpvfEB-oi_vM1yAoPEwQ3UMNbV8bdtdP1V-jHPKPvW8_md_qbx4/exec";
 
 export async function getCollections() {
 
   try {
 
-    const response = await fetch(
-      `${API_URL}?action=getCollections`
-    );
+    const response =
+      await fetch(
+        `${API_URL}?action=getCollections`
+      );
 
-    const data = await response.json();
+    return await response.json();
 
-    return data;
+  } catch (err) {
 
-  } catch (error) {
-
-    console.error(
+    console.log(
       "Error fetching collections:",
-      error
+      err
     );
 
     return {
+
       success: false,
+
       collections: []
+
     };
   }
-
 }

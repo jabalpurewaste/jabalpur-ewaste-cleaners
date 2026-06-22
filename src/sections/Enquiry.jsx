@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { submitEnquiry } from "../services/enquiryService";
-import Notification from "../components/common/Notification";
+
+import { submitEnquiry }
+from "../services/enquiryService";
+
+import Notification
+from "../components/common/Notification";
 
 function Enquiry({ user }) {
 
   const [description, setDescription] =
     useState("");
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] =
+    useState(false);
 
   const [contactNumber, setContactNumber] =
     useState(user?.mobile || "");
@@ -21,80 +24,107 @@ function Enquiry({ user }) {
       type: "success"
     });
 
-  
-
   const handleSubmit = async () => {
 
-        if (!description.trim()) {
+    /* LOGIN CHECK */
 
-          setNotification({
-            show: true,
-            message: "Please enter your requirement.",
-            type: "error"
-          });
+    if (!user) {
 
-          return;
-        }
+      setNotification({
+        show: true,
+        message:
+          "Please login first to submit enquiry.",
+        type: "error"
+      });
 
-        const mobileRegex =
-          /^[6-9]\d{9}$/;
+      return;
+    }
 
-        if (
-          !mobileRegex.test(contactNumber)
-        ) {
+    /* DESCRIPTION VALIDATION */
 
-          setNotification({
-            show: true,
-            message:
-              "Please enter a valid 10 digit mobile number.",
-            type: "error"
-          });
+    if (!description.trim()) {
 
-          return;
-        }
+      setNotification({
+        show: true,
+        message:
+          "Please enter your requirement.",
+        type: "error"
+      });
 
-        setLoading(true);
+      return;
+    }
 
-        try {
+    /* MOBILE VALIDATION */
 
-          const result =
-            await submitEnquiry({
-              userId: user.userId,
-              userName: user.name,
-              mobile: contactNumber,
-              description
-            });
+    const mobileRegex =
+      /^[6-9]\d{9}$/;
 
-          if (result.success) {
+    if (
+      !mobileRegex.test(contactNumber)
+    ) {
 
-            setNotification({
-              show: true,
-              message:
-                `Enquiry submitted successfully. ID: ${result.enquiryId}`,
-              type: "success"
-            });
+      setNotification({
+        show: true,
+        message:
+          "Please enter a valid 10 digit mobile number.",
+        type: "error"
+      });
 
-            setDescription("");
-          }
+      return;
+    }
 
-        } catch (err) {
+    setLoading(true);
 
-          console.log(err);
+    try {
 
-          setNotification({
-            show: true,
-            message:
-              "Failed to submit enquiry.",
-            type: "error"
-          });
+      const result =
+        await submitEnquiry({
 
-        } finally {
+          userId:
+            user.userId,
 
-          setLoading(false);
+          userName:
+            user.name,
 
-        }
+          mobile:
+            contactNumber,
 
-      };
+          description:
+            description.trim()
+
+        });
+
+      if (result.success) {
+
+        setNotification({
+          show: true,
+          message:
+            `Enquiry submitted successfully. ID: ${result.enquiryId}`,
+          type: "success"
+        });
+
+        setDescription("");
+
+      }
+
+    } catch (err) {
+
+      console.log(err);
+
+      setNotification({
+        show: true,
+        message:
+          "Failed to submit enquiry.",
+        type: "error"
+      });
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
 
   return (
 
@@ -152,6 +182,8 @@ function Enquiry({ user }) {
               font-bold
               leading-tight
               mb-6
+              text-slate-900
+              dark:text-white
               "
             >
               Need E-Waste Collection
@@ -172,26 +204,6 @@ function Enquiry({ user }) {
               support and certification.
             </p>
 
-            <div className="space-y-4">
-
-              <div className="flex gap-3 items-center">
-                ✅ Fast Pickup Support
-              </div>
-
-              <div className="flex gap-3 items-center">
-                ✅ Government Compliant Process
-              </div>
-
-              <div className="flex gap-3 items-center">
-                ✅ Disposal Certificate Support
-              </div>
-
-              <div className="flex gap-3 items-center">
-                ✅ Corporate & Institutional Service
-              </div>
-
-            </div>
-
           </div>
 
           <div
@@ -205,48 +217,6 @@ function Enquiry({ user }) {
             overflow-hidden
             "
           >
-
-            <div
-              className="
-              absolute
-              top-0
-              right-0
-              w-24
-              h-24
-              border-t-4
-              border-r-4
-              border-green-600
-              rounded-tr-3xl
-              "
-            />
-
-            <div
-              className="
-              absolute
-              bottom-0
-              left-0
-              w-24
-              h-24
-              border-b-4
-              border-l-4
-              border-green-600
-              rounded-bl-3xl
-              "
-            />
-
-            <div
-              className="
-              absolute
-              -top-10
-              -right-10
-              w-40
-              h-40
-              bg-green-100
-              rounded-full
-              blur-3xl
-              opacity-40
-              "
-            />
 
             <div className="relative z-10">
 
@@ -266,11 +236,25 @@ function Enquiry({ user }) {
                 Quick Support
               </span>
 
-              <h3 className="text-2xl font-bold mb-2">
+              <h3
+                className="
+                text-2xl
+                font-bold
+                mb-2
+                text-slate-900
+                dark:text-white
+                "
+              >
                 Submit Enquiry
               </h3>
 
-              <p className="text-gray-500 mb-6">
+              <p
+                className="
+                text-gray-500
+                dark:text-gray-300
+                mb-6
+                "
+              >
                 Our team will contact you shortly.
               </p>
 
@@ -292,6 +276,12 @@ function Enquiry({ user }) {
                 focus:ring-2
                 focus:ring-green-200
                 focus:border-green-500
+                text-black
+                dark:text-white
+                placeholder:text-gray-400
+                dark:placeholder:text-gray-500
+                bg-white
+                dark:bg-slate-800
                 "
               />
 
@@ -316,6 +306,12 @@ function Enquiry({ user }) {
                 focus:ring-2
                 focus:ring-green-200
                 focus:border-green-500
+                text-black
+                dark:text-white
+                placeholder:text-gray-400
+                dark:placeholder:text-gray-500
+                bg-white
+                dark:bg-slate-800
                 "
               />
 

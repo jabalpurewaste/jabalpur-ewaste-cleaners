@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { createPickup } from "../services/pickupService";
-import Notification from "../components/common/Notification";
+
+import { createPickup }
+from "../services/pickupService";
+
+import Notification
+from "../components/common/Notification";
 
 function PickupRequest({ user }) {
 
@@ -13,9 +17,9 @@ function PickupRequest({ user }) {
   const [address, setAddress] =
     useState("");
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  
+  const [loading, setLoading] =
+    useState(false);
+
   const [notification, setNotification] =
     useState({
       show: false,
@@ -23,113 +27,131 @@ function PickupRequest({ user }) {
       type: "success"
     });
 
-   
-   const handleSubmit = async () => {
+  const handleSubmit = async () => {
 
-        if (
-          material.trim().length < 3
-        ) {
+    /* LOGIN CHECK */
 
-          setNotification({
-            show: true,
-            message:
-              "Please enter a valid material.",
-            type: "error"
-          });
+    if (!user) {
 
-          return;
-        }
+      setNotification({
+        show: true,
+        message:
+          "Please login first to request pickup.",
+        type: "error"
+      });
 
-        if (
-          !quantity.trim()
-        ) {
+      return;
+    }
 
-          setNotification({
-            show: true,
-            message:
-              "Please enter quantity.",
-            type: "error"
-          });
+    /* MATERIAL VALIDATION */
 
-          return;
-        }
+    if (
+      material.trim().length < 3
+    ) {
 
-        if (
-          address.trim().length < 10
-        ) {
+      setNotification({
+        show: true,
+        message:
+          "Please enter a valid material.",
+        type: "error"
+      });
 
-          setNotification({
-            show: true,
-            message:
-              "Please enter complete pickup address.",
-            type: "error"
-          });
+      return;
+    }
 
-          return;
-        }
+    /* QUANTITY VALIDATION */
 
-        setLoading(true);
+    if (
+      !quantity.trim()
+    ) {
 
-        try {
+      setNotification({
+        show: true,
+        message:
+          "Please enter quantity.",
+        type: "error"
+      });
 
-          const result =
-            await createPickup({
+      return;
+    }
 
-              userId:
-                user.userId,
+    /* ADDRESS VALIDATION */
 
-              userName:
-                user.name,
+    if (
+      address.trim().length < 10
+    ) {
 
-              mobile:
-                user.mobile,
+      setNotification({
+        show: true,
+        message:
+          "Please enter complete pickup address.",
+        type: "error"
+      });
 
-              material:
-                material.trim(),
+      return;
+    }
 
-              quantity:
-                quantity.trim(),
+    setLoading(true);
 
-              address:
-                address.trim()
+    try {
 
-            });
+      const result =
+        await createPickup({
 
-          if (
-            result.success
-          ) {
+          userId:
+            user.userId,
 
-            setNotification({
-              show: true,
-              message:
-                `Pickup request submitted successfully. Order ID: ${result.orderId}`,
-              type: "success"
-            });
+          userName:
+            user.name,
 
-            setMaterial("");
-            setQuantity("");
-            setAddress("");
+          mobile:
+            user.mobile,
 
-          }
+          material:
+            material.trim(),
 
-        } catch (err) {
+          quantity:
+            quantity.trim(),
 
-          console.log(err);
+          address:
+            address.trim()
 
-          setNotification({
-            show: true,
-            message:
-              "Failed to submit pickup request.",
-            type: "error"
-          });
+        });
 
-        } finally {
+      if (result.success) {
 
-          setLoading(false);
+        setNotification({
+          show: true,
+          message:
+            `Pickup request submitted successfully. Order ID: ${result.orderId}`,
+          type: "success"
+        });
 
-        }
+        setMaterial("");
+        setQuantity("");
+        setAddress("");
 
-      };
+      }
+
+    } catch (err) {
+
+      console.log(err);
+
+      setNotification({
+        show: true,
+        message:
+          "Failed to submit pickup request.",
+        type: "error"
+      });
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
   return (
 
     <section
@@ -140,6 +162,9 @@ function PickupRequest({ user }) {
       from-white
       via-green-50
       to-white
+      dark:from-slate-900
+      dark:via-slate-800
+      dark:to-slate-900
       "
     >
 
@@ -162,7 +187,9 @@ function PickupRequest({ user }) {
           text-4xl
           font-bold
           text-center
-          mb-3 text-slate-900
+          mb-3
+          text-slate-900
+          dark:text-white
           "
         >
           Request Pickup
@@ -172,6 +199,7 @@ function PickupRequest({ user }) {
           className="
           text-center
           text-gray-500
+          dark:text-gray-300
           mb-10
           "
         >
@@ -182,76 +210,13 @@ function PickupRequest({ user }) {
           className="
           relative
           bg-white
+          dark:bg-slate-800
           rounded-3xl
           shadow-2xl
           overflow-hidden
           p-8
           "
         >
-
-          {/* Top Right Corner */}
-
-          <div
-            className="
-            absolute
-            top-0
-            right-0
-            w-24
-            h-24
-            border-t-4
-            border-r-4
-            border-green-600
-            rounded-tr-3xl
-            "
-          />
-
-          {/* Bottom Left Corner */}
-
-          <div
-            className="
-            absolute
-            bottom-0
-            left-0
-            w-24
-            h-24
-            border-b-4
-            border-l-4
-            border-green-600
-            rounded-bl-3xl
-            "
-          />
-
-          {/* Green Glow */}
-
-          <div
-            className="
-            absolute
-            -top-10
-            -left-10
-            w-40
-            h-40
-            bg-green-100
-            rounded-full
-            blur-3xl
-            opacity-50
-            "
-          />
-
-          {/* Decorative Background */}
-
-          <div
-            className="
-            absolute
-            right-5
-            bottom-5
-            text-[140px]
-            opacity-[0.03]
-            select-none
-            pointer-events-none
-            "
-          >
-            ♻
-          </div>
 
           <div className="relative z-10">
 
@@ -275,7 +240,9 @@ function PickupRequest({ user }) {
               className="
               text-2xl
               font-bold
-              mb-2 text-slate-900
+              mb-2
+              text-slate-900
+              dark:text-white
               "
             >
               Pickup Request Form
@@ -284,6 +251,7 @@ function PickupRequest({ user }) {
             <p
               className="
               text-gray-500
+              dark:text-gray-300
               mb-6
               "
             >
@@ -294,10 +262,8 @@ function PickupRequest({ user }) {
               type="text"
               placeholder="Material"
               value={material}
-              onChange={(e)=>
-                setMaterial(
-                  e.target.value
-                )
+              onChange={(e) =>
+                setMaterial(e.target.value)
               }
               className="
               w-full
@@ -310,6 +276,12 @@ function PickupRequest({ user }) {
               focus:ring-2
               focus:ring-green-200
               focus:border-green-500
+              text-black
+              dark:text-white
+              placeholder:text-gray-400
+              dark:placeholder:text-gray-500
+              bg-white
+              dark:bg-slate-800
               "
             />
 
@@ -317,10 +289,8 @@ function PickupRequest({ user }) {
               type="text"
               placeholder="Quantity"
               value={quantity}
-              onChange={(e)=>
-                setQuantity(
-                  e.target.value
-                )
+              onChange={(e) =>
+                setQuantity(e.target.value)
               }
               className="
               w-full
@@ -333,6 +303,12 @@ function PickupRequest({ user }) {
               focus:ring-2
               focus:ring-green-200
               focus:border-green-500
+              text-black
+              dark:text-white
+              placeholder:text-gray-400
+              dark:placeholder:text-gray-500
+              bg-white
+              dark:bg-slate-800
               "
             />
 
@@ -340,10 +316,8 @@ function PickupRequest({ user }) {
               rows="4"
               placeholder="Pickup Address"
               value={address}
-              onChange={(e)=>
-                setAddress(
-                  e.target.value
-                )
+              onChange={(e) =>
+                setAddress(e.target.value)
               }
               className="
               w-full
@@ -356,31 +330,38 @@ function PickupRequest({ user }) {
               focus:ring-2
               focus:ring-green-200
               focus:border-green-500
+              text-black
+              dark:text-white
+              placeholder:text-gray-400
+              dark:placeholder:text-gray-500
+              bg-white
+              dark:bg-slate-800
               "
             />
 
-             <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="
-                w-full
-                bg-green-700
-                hover:bg-green-800
-                disabled:bg-green-400
-                disabled:cursor-not-allowed
-                text-white
-                py-4
-                rounded-xl
-                font-semibold
-                duration-300
-                hover:shadow-xl
-                hover:scale-[1.01]
-                "
-              >
-                {loading
-                  ? "Submitting..."
-                  : "Submit Pickup Request"}
-              </button>
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className="
+              w-full
+              bg-green-700
+              hover:bg-green-800
+              disabled:bg-green-400
+              disabled:cursor-not-allowed
+              text-white
+              py-4
+              rounded-xl
+              font-semibold
+              duration-300
+              hover:shadow-xl
+              hover:scale-[1.01]
+              "
+            >
+              {loading
+                ? "Submitting..."
+                : "Submit Pickup Request"}
+            </button>
+
           </div>
 
         </div>
