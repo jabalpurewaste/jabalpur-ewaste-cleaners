@@ -292,7 +292,7 @@ Error generating stack: `+e.message+`
               rounded-3xl\r
               overflow-hidden\r
               shadow-2xl\r
-            `,children:[(0,O.jsx)(`img`,{src:`/jabalpur-ewaste-cleaners/hero-placeholder.jpg`,alt:`Jabalpur E-Waste Cleaners`,className:`\r
+            `,children:[(0,O.jsx)(`img`,{src:`/hero-placeholder.jpg`,alt:`Jabalpur E-Waste Cleaners`,className:`\r
                 w-full\r
                 max-w-lg\r
                 rounded-3xl\r
